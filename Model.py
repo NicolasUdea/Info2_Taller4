@@ -41,6 +41,10 @@ class DICOMImage:
     def metadata(self):
         return self._metadata
 
+    @property
+    def image(self):
+        return self.__image
+
 
 dicom_image = DICOMImage('data/1-001.dcm')
 dicom_image.load_image()
