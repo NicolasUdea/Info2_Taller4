@@ -16,18 +16,17 @@ class Controller:
         password = self.view.lineEdit_2.text()
         if self.model.verify_credentials(username, password):
             print("Las credenciales son correctas")
+            # Aquí puedes abrir la ventana de la imagen DICOM
         else:
-            print("Las credenciales son incorrectas")
+            self.view.show_error_message()
 
     def run(self):
         self.view.show()
         sys.exit(self.app.exec_())
 
-
 def main():
     controller = Controller()
     controller.run()
-
 
 if __name__ == '__main__':
     main()
