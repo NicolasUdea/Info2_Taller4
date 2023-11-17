@@ -10,11 +10,6 @@ class User:
         return self.__username == input_username and self.__password == input_password
 
 
-user = User('medicoAnalitico', 'bio12345')
-print(user.verify_credentials('medicoAnalitico', 'bio12345'))  # prints: True
-print(user.verify_credentials('wrongUsername', 'wrongPassword'))  # prints: False
-
-
 class DICOMImage:
     def __init__(self, file_path):
         self.__file_path = file_path
@@ -44,9 +39,3 @@ class DICOMImage:
     @property
     def image(self):
         return self.__image
-
-
-dicom_image = DICOMImage('data/1-001.dcm')
-dicom_image.load_image()
-dicom_image.extract_metadata()
-print(dicom_image.metadata)  # prints the extracted metadata
