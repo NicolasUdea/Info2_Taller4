@@ -48,8 +48,7 @@ QPushButton#pushButton_2:pressed, #pushButton_3:pressed, #pushButton_4:pressed, 
 	padding-left:5px;
 	padding-top:5px;
 	color:rgba(115, 255, 128, 255);
-}
-</string>
+}</string>
    </property>
    <widget class="QLabel" name="label">
     <property name="geometry">
