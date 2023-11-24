@@ -1,4 +1,4 @@
-from Model import User, DICOMImage
+from Model import User
 from View import LoginWindow, MainWindow
 from PyQt5.QtWidgets import QApplication
 import sys
@@ -15,6 +15,10 @@ class Controller:
     def get_images(self, images):
         data = self.model.load_folder(images)
         return data
+
+    def handle_folder_path(self, path):
+        return self.model.load_folder(path)
+
 
 def main():
     app = QApplication(sys.argv)

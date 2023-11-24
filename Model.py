@@ -8,16 +8,10 @@ class User:
     def __init__(self, username, password):
         self.__username = username
         self.__password = password
+        self.__images = None
 
     def verify_credentials(self, input_username, input_password):
         return self.__username == input_username and self.__password == input_password
-
-
-class DICOMImage:
-    def __init__(self):
-        self.__file_path = ""
-        self._metadata = None
-        self.__image = None
 
     def load_image(self, path: str):
         if path.endswith('.dcm'):
@@ -32,11 +26,14 @@ class DICOMImage:
         image_list = []
         for path in os.listdir(folder_path):
             image, file = self.load_image(folder_path + '/' + path)
-            image_list.append({"name": path, "file": file, "image": image})
+            metadata = self.extract_metadata(file)
+            image_list.append({"name": path, "metadata": metadata, "image": image})
 
-    def extract_metadata(self):
+        print(image_list[0]["image"].shape)
+        return image_list
+
+    def extract_metadata(self, dicom_file):
         """Extracts the metadata from the DICOM file."""
-        dicom_file = pydicom.dcmread(self.__file_path)
         self._metadata = {
             'PatientID': dicom_file.PatientID,
             'StudyDate': dicom_file.StudyDate,
@@ -45,11 +42,7 @@ class DICOMImage:
             'BodyPartExamined': dicom_file.BodyPartExamined,
         }
 
-    @property
-    def metadata(self):
-        return self._metadata
-
-    @property
-    def image(self):
-        return self.__image
+#    @property
+#    def return_images(self):
+#        return self.__images
 
