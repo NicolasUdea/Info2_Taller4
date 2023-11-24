@@ -69,8 +69,16 @@ class MainWindow(QMainWindow):
         label_names = ["label", "label_2", "label_3", "label_4", "label_5"]
         dicom_file_test = pydicom.dcmread("data/1-001.dcm")
         for name in label_names:
-            label = self.findChild(QLabel, name)
-            label.setText(str(dicom_file_test.PatientID))
+            if name == "label":
+                self.findChild(QLabel, name).setText("PatientID: " + dicom_file_test.PatientID)
+            elif name == "label_2":
+                self.findChild(QLabel, name).setText("StudyDate: " + dicom_file_test.StudyDate)
+            elif name == "label_3":
+                self.findChild(QLabel, name).setText("Modality: " + dicom_file_test.Modality)
+            elif name == "label_4":
+                self.findChild(QLabel, name).setText("Manufacturer: " + dicom_file_test.Manufacturer)
+            elif name == "label_5":
+                self.findChild(QLabel, name).setText("BodyPartExamined: " + dicom_file_test.BodyPartExamined)
 
 
 class MyGraphCanvas(FigureCanvas):
