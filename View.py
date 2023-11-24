@@ -1,7 +1,8 @@
-from PyQt5.QtWidgets import QMessageBox, QWidget, QMainWindow, QFileDialog, QSlider
+from PyQt5.QtWidgets import QMessageBox, QWidget, QMainWindow, QFileDialog, QSlider, QLabel
 from PyQt5.uic import loadUi
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
+import pydicom
 
 
 class LoginWindow(QWidget):
@@ -46,6 +47,7 @@ class MainWindow(QMainWindow):
         self.graphicator = MyGraphCanvas(self.dicom_img)
         self.load_folder.clicked.connect(self.open_directory_dialog)
         self.slider.valueChanged.connect(self.slider_moved)
+        self.set_dicom_info()
 
     def open_directory_dialog(self):
         folder_path = QFileDialog.getExistingDirectory(self, "Select Directory")
@@ -62,6 +64,13 @@ class MainWindow(QMainWindow):
 
     def assing_controller(self, controller):
         self.controller = controller
+
+    def set_dicom_info(self):
+        label_names = ["label", "label_2", "label_3", "label_4", "label_5"]
+        dicom_file_test = pydicom.dcmread("data/1-001.dcm")
+        for name in label_names:
+            label = self.findChild(QLabel, name)
+            label.setText(str(dicom_file_test.PatientID))
 
 
 class MyGraphCanvas(FigureCanvas):

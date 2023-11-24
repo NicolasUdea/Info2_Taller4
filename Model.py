@@ -24,23 +24,29 @@ class User:
     def load_folder(self, folder_path: str):
         """Loads a folder of DICOM images."""
         image_list = []
-        for path in os.listdir(folder_path):
-            image, file = self.load_image(folder_path + '/' + path)
-            metadata = self.extract_metadata(file)
-            image_list.append({"name": path, "metadata": metadata, "image": image})
+        files = os.listdir(folder_path)
+        if files:
+            # Extract metadata from the first file
+            _, first_file = self.load_image(folder_path + '/' + files[0])
+            metadata = self.extract_metadata(first_file)
 
-        print(image_list[0]["image"].shape)
+            for path in files:
+                image, _ = self.load_image(folder_path + '/' + path)
+                image_list.append({"name": path, "metadata": metadata, "image": image})
+
+            print(image_list[0]["image"].shape)
         return image_list
 
     def extract_metadata(self, dicom_file):
         """Extracts the metadata from the DICOM file."""
-        self._metadata = {
+        metadata_dicom = {
             'PatientID': dicom_file.PatientID,
             'StudyDate': dicom_file.StudyDate,
             'Modality': dicom_file.Modality,
             'Manufacturer': dicom_file.Manufacturer,
             'BodyPartExamined': dicom_file.BodyPartExamined,
         }
+        return metadata_dicom
 
 #    @property
 #    def return_images(self):
