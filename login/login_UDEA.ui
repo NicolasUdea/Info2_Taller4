@@ -60,11 +60,16 @@ QPushButton#pushButton_2:pressed, #pushButton_3:pressed, #pushButton_4:pressed, 
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">border-image: url(:/images/background.png);
-border-radius:20px;</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>background.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">

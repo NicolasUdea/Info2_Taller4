@@ -11,13 +11,14 @@ class User:
 
 
 class DICOMImage:
-    def __init__(self, file_path):
-        self.__file_path = file_path
+    def __init__(self):
+        self.__file_path = ""
         self._metadata = None
         self.__image = None
 
-    def load_image(self):
+    def load_image(self, path):
         """Loads the image data from the DICOM file."""
+        self.__file_path = path
         dicom_file = pydicom.dcmread(self.__file_path)
         self.__image = dicom_file.pixel_array
 

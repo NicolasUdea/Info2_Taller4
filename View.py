@@ -1,20 +1,45 @@
-from PyQt5 import QtWidgets
-from login.login_UDEA import Ui_Form
-from PyQt5.QtWidgets import QMessageBox
-from content.dicom_interfaz import Ui_MainWindow
+from PyQt5.QtWidgets import QMessageBox, QWidget, QMainWindow
+from PyQt5.uic import loadUi
 
 
-class LoginWindow(QtWidgets.QMainWindow, Ui_Form):
-    def __init__(self, model):
-        super(LoginWindow, self).__init__()
-        self.setupUi(self)
-        self.model = model
+class LoginWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+        loadUi('login/login_UDEA.ui', self)
+        self.setup()
+
+    def setup(self):
+        self.pushButton.clicked.connect(self.handle_login)
+
+    def handle_login(self):
+        username = self.lineEdit.text()
+        password = self.lineEdit_2.text()
+        continue_login = self.controller.recieve_login_data(username, password)
+        if continue_login:
+            self.close()
+            self.main_window = MainWindow()
+            self.main_window.show()
+        else:
+            self.show_error_message()
 
     def show_error_message(self):
-        QMessageBox.warning(self, 'Error', 'Las credenciales son incorrectas')
+        msg = QMessageBox()
+        msg.setWindowTitle("Error")
+        msg.setText("Usuario y/o contraseña incorrectos")
+        msg.exec_()
+
+    def assing_controller(self, controller):
+        self.controller = controller
 
 
-class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
+class MainWindow(QMainWindow):
     def __init__(self):
-        super(MainWindow, self).__init__()
-        self.setupUi(self)
+        super().__init__()
+        loadUi('content/dicom_interfaz.ui', self)
+        self.setup()
+
+    def setup(self):
+        pass
+
+    def assing_controller(self, controller):
+        self.controller = controller
