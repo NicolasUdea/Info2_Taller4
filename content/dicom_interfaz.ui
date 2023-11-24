@@ -42,7 +42,7 @@
      <widget class="QWidget" name="info_dicom" native="true">
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QPushButton" name="cargar_folder">
+        <widget class="QPushButton" name="load_folder">
          <property name="font">
           <font>
            <weight>75</weight>

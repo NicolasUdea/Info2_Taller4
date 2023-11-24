@@ -12,6 +12,9 @@ class Controller:
     def recieve_login_data(self, username, password):
         return self.model.verify_credentials(username, password)
 
+    def get_images(self, images):
+        data = self.model.load_folder(images)
+        return data
 
 def main():
     app = QApplication(sys.argv)

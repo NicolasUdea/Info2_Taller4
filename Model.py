@@ -1,4 +1,7 @@
+from PyQt5.QtGui import QImage
+import numpy as np
 import pydicom
+import os
 
 
 class User:
@@ -16,11 +19,20 @@ class DICOMImage:
         self._metadata = None
         self.__image = None
 
-    def load_image(self, path):
-        """Loads the image data from the DICOM file."""
-        self.__file_path = path
-        dicom_file = pydicom.dcmread(self.__file_path)
-        self.__image = dicom_file.pixel_array
+    def load_image(self, path: str):
+        if path.endswith('.dcm'):
+            file = pydicom.dcmread(path)
+            image = file.pixel_array
+            return image, file
+        else:
+            return None, None
+
+    def load_folder(self, folder_path: str):
+        """Loads a folder of DICOM images."""
+        image_list = []
+        for path in os.listdir(folder_path):
+            image, file = self.load_image(folder_path + '/' + path)
+            image_list.append({"name": path, "file": file, "image": image})
 
     def extract_metadata(self):
         """Extracts the metadata from the DICOM file."""
@@ -40,3 +52,4 @@ class DICOMImage:
     @property
     def image(self):
         return self.__image
+

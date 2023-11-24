@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMessageBox, QWidget, QMainWindow
+from PyQt5.QtWidgets import QMessageBox, QWidget, QMainWindow, QFileDialog
 from PyQt5.uic import loadUi
 
 
@@ -39,7 +39,16 @@ class MainWindow(QMainWindow):
         self.setup()
 
     def setup(self):
-        pass
+        self.load_folder.clicked.connect(self.open_directory_dialog)
+
+    def open_directory_dialog(self):
+        folder_path = QFileDialog.getExistingDirectory(self, "Select Directory")
+        self.controller.handle_folder_path(folder_path)
+
+    def display_dicom_image(self, image):
+        """Displays a DICOM image on the QLabel dicom_img."""
+        pixmap = QPixmap.fromImage(image)
+        self.dicom_img.setPixmap(pixmap)
 
     def assing_controller(self, controller):
         self.controller = controller
