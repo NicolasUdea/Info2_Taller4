@@ -1,5 +1,3 @@
-from PyQt5.QtGui import QImage
-import numpy as np
 import pydicom
 import os
 
@@ -34,7 +32,6 @@ class User:
                 image, _ = self.load_image(folder_path + '/' + path)
                 image_list.append({"name": path, "metadata": metadata, "image": image})
 
-            print(image_list[0]["image"].shape)
         return image_list
 
     def extract_metadata(self, dicom_file):
@@ -47,8 +44,3 @@ class User:
             'BodyPartExamined': dicom_file.BodyPartExamined,
         }
         return metadata_dicom
-
-#    @property
-#    def return_images(self):
-#        return self.__images
-

@@ -1,33 +1,44 @@
-Proyecto hecho por Nicolas Vargas Flores (1001368855)
+# Visualizador de Imágenes DICOM
 
-Informática II
-Bioingeniería
-Universidad de Antioquia
+Este proyecto es una aplicación de visualización de imágenes DICOM construida con PyQt5 y pydicom. Utiliza el patrón de diseño Modelo-Vista-Controlador (MVC) para organizar el código.
 
-Enlace de repositorio de GitHub: https://github.com/NicolasUdea/Info2_Taller4.git
+## Características
 
-** Documentación **
+- Inicio de sesión de usuario
+- Carga de imágenes DICOM desde una carpeta
+- Visualización de imágenes DICOM en la interfaz de usuario
+- Desplazamiento a través de las imágenes DICOM utilizando un deslizador
+- Visualización de metadatos DICOM en la interfaz de usuario
 
-El proyecto propuesto sigue el patrón de diseño Modelo-Vista-Controlador (MVC) de
-la siguiente manera:
+## Estructura del Código
 
-1. Modelo (model): las clases User y DICOMimage actúan como el Modelo. La Clase User
-representa los datos y la lógica de negocio relacionados con los usuarios de
-la aplicación. La clase DICOMimage representa los datos y la lógica de negocio
-relacionados con las imágenes DICOM que se van a visualizar.
+El código se divide en tres módulos principales: Modelo, Vista y Controlador.
 
-2. Vista (view): la clase ImageDisplay actúa como la Vista. Esta clase se encarga de
-la presentación de los datos al usuario. En este caso, la clase ImageDisplay se encarga
-de mostrar la imágenes DICOM al usuario.
+### Modelo
 
-3. Controlador (controller): la clase Application actúa como el Controlador. Esta clase
-se encarga de manejar la interaccion del usuario con la Vista y de actualizar el Modelo
-según sea necesario. Por ejemplo, cuando el usuario selecciona una carpeta de imágenes
-a tráves de la Vista, el Controlador se encarga de cargas estas imágenes en el Modelo.
+El módulo del Modelo contiene la clase `User`, que maneja la carga de imágenes DICOM y la extracción de metadatos.
 
-Extra: la clase SliderController puede considerarse como un controlador adicional que
-se encarga de la interacción del usuario con el control deslizante de la Vista.
+### Vista
 
-Por lo tanto, el proyecto se considera de tipo MVC porque separa claramente las
-responsabilidades de manejo de datos (Model), presentación de datos (View) e interacción
-del usuario (Controller).
+El módulo de la Vista contiene las clases `LoginWindow`, `MainWindow` y `MyGraphCanvas`. `LoginWindow` es la ventana de inicio de sesión, `MainWindow` es la ventana principal de la aplicación donde se cargan y visualizan las imágenes DICOM, y `MyGraphCanvas` es una subclase de `FigureCanvas` que se utiliza para mostrar las imágenes DICOM.
+
+### Controlador
+
+El módulo del Controlador contiene la clase `Controller`, que maneja la comunicación entre el Modelo y la Vista.
+
+## Uso
+
+Para ejecutar la aplicación, simplemente ejecuta el script `Controller.py`.
+
+## Dependencias
+
+- PyQt5
+- pydicom
+
+## Autor
+
+Nicolas Vargas Flores (1001368855)
+
+## Universidad de Antioquia
+
+Programa bioingeniería, informática II

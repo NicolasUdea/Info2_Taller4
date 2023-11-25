@@ -3,6 +3,7 @@ from PyQt5.uic import loadUi
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 import pydicom
+import os
 
 
 class LoginWindow(QWidget):
@@ -41,6 +42,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         loadUi('content/dicom_interfaz.ui', self)
         self.slider = self.findChild(QSlider, "verticalSlider")
+        self.folder_path = None
         self.setup()
 
     def setup(self):
@@ -50,10 +52,11 @@ class MainWindow(QMainWindow):
         self.set_dicom_info()
 
     def open_directory_dialog(self):
-        folder_path = QFileDialog.getExistingDirectory(self, "Select Directory")
-        self.images = self.controller.handle_folder_path(folder_path)
+        self.folder_path = QFileDialog.getExistingDirectory(self, "Select Directory")
+        self.images = self.controller.handle_folder_path(self.folder_path)
         self.slider.setMaximum(len(self.images) - 1)  # Set the maximum value of the slider
         self.display_dicom_image()
+        self.set_dicom_info()  # Update the DICOM info
 
     def display_dicom_image(self):
         """Displays a DICOM image on the QLabel dicom_img."""
@@ -66,22 +69,20 @@ class MainWindow(QMainWindow):
         self.controller = controller
 
     def set_dicom_info(self):
-        label_names = ["label", "label_2", "label_3", "label_4", "label_5"]
-        dicom_file_test = pydicom.dcmread("data/1-001.dcm")
-        for name in label_names:
-            if name == "label":
-                self.findChild(QLabel, name).setText("PatientID: " + dicom_file_test.PatientID)
-            elif name == "label_2":
-                self.findChild(QLabel, name).setText("StudyDate: " + dicom_file_test.StudyDate)
-            elif name == "label_3":
-                self.findChild(QLabel, name).setText("Modality: " + dicom_file_test.Modality)
-            elif name == "label_4":
-                self.findChild(QLabel, name).setText("Manufacturer: " + dicom_file_test.Manufacturer)
-            elif name == "label_5":
-                self.findChild(QLabel, name).setText("BodyPartExamined: " + dicom_file_test.BodyPartExamined)
+        if not self.folder_path:  # If no folder is selected, return None
+            return
+
+        # Load the first DICOM file in the folder
+        dicom_file = pydicom.dcmread(self.folder_path + '/' + os.listdir(self.folder_path)[0])
+
+        self.findChild(QLabel, "label").setText("PatientID: " + dicom_file.PatientID)
+        self.findChild(QLabel, "label_2").setText("StudyDate: " + dicom_file.StudyDate)
+        self.findChild(QLabel, "label_3").setText("Modality: " + dicom_file.Modality)
+        self.findChild(QLabel, "label_4").setText("Manufacturer: " + dicom_file.Manufacturer)
+        self.findChild(QLabel, "label_5").setText("BodyPartExamined: " + dicom_file.BodyPartExamined)
 
 
-class MyGraphCanvas(FigureCanvas):
+class MyGraphCanvas(FigureCanvas):  # This is the canvas widget
     def __init__(self, layout=None, parent=None, width=20, height=20, dpi=100):
         self.fig = Figure(figsize=(width, height), dpi=dpi)
         FigureCanvas.__init__(self, self.fig)

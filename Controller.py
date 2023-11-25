@@ -1,5 +1,5 @@
 from Model import User
-from View import LoginWindow, MainWindow
+from View import LoginWindow
 from PyQt5.QtWidgets import QApplication
 import sys
 
